@@ -7,6 +7,9 @@ const sequelize=require('../config/connection');
 router.get('/', (req, res) => {
   HTMLFormControlsCollection.log(req.session);
   console.log('======================');
+  
+  console.log(req.session);
+
   Post.findAll({
     attributes: [
       'id',
@@ -21,17 +24,16 @@ router.get('/', (req, res) => {
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
           model: User,
-          attributes: ['username']
+          attributes: ['email']
         }
       },
-      {
-        model: User,
-        attributes: ['username']
-      }
+    
     ]
   })
     .then(dbPostData => {
       const posts = dbPostData.map(post => post.get({ plain: true }));
+
+      console.log(posts);
       
       res.render('homepage', {
         posts,
@@ -63,13 +65,10 @@ router.get('/post/:id', (req, res) => {
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
           model: User,
-          attributes: ['username']
+          attributes: ['email']
         }
       },
-      {
-        model: User,
-        attributes: ['username']
-      }
+     
     ]
   })
     .then(dbPostData => {
