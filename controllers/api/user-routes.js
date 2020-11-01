@@ -57,14 +57,14 @@ router.get('/:id', (req, res) => {
 
 
 
-router.post("/", (req, res) => {
+router.post('/', (req, res) => {
   User.create({
     username: req.body.username,
     password: req.body.password
   })
   .then(dbUserData => {
     req.session.save(() => {
-      req.session.userId = dbUserData.id;
+      req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
 
@@ -77,7 +77,7 @@ router.post("/", (req, res) => {
   });
 });
 
-router.post("/login", (req, res) => {
+router.post('/login', (req, res) => {
   User.findOne({
     where: {
       username: req.body.username
@@ -96,7 +96,7 @@ router.post("/login", (req, res) => {
     }
 
     req.session.save(() => {
-      req.session.userId = dbUserData.id;
+      req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
   
@@ -138,7 +138,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete("/user/:id", (req, res) => {
+router.delete('/user/:id', (req, res) => {
   User.destroy({
     where: {
       id: req.params.id
