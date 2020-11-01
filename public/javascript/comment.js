@@ -1,4 +1,4 @@
-const commentFormHandler = async function(event) {
+async function commentFormHandler(event) {
   event.preventDefault();
 
   const postId = document.querySelector('input[name="post-id"]').value;
@@ -15,7 +15,7 @@ const commentFormHandler = async function(event) {
         'Content-Type': 'application/json'
       }
     });
-
+    
     document.location.reload();
   }
 };

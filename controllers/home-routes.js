@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   HTMLFormControlsCollection.log(req.session);
   console.log('======================');
   
-  console.log(req.session);
+
 
   Post.findAll({
     attributes: [
@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
     .then(dbPostData => {
       const posts = dbPostData.map(post => post.get({ plain: true }));
 
-      console.log(posts);
+     
       
       res.render('homepage', {
         posts,
@@ -46,49 +46,35 @@ router.get('/', (req, res) => {
     });
 });
 
-// get single post
-router.get('/post/:id', (req, res) => {
-  Post.findOne({
-    where: {
-      id: req.params.id
-    },
-    attributes: [
-      'id',
-      'post_url',
-      'title',
-      'created_at',
-     
-    ],
+
+//get single post
+router.get("/post/:id", (req, res) => {
+  Post.findByPk(req.params.id, {
     include: [
+      User,
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-        include: {
-          model: User,
-          attributes: ['email']
-        }
+        include: [User],
       },
-     
-    ]
+    ],
   })
-    .then(dbPostData => {
-      if (!dbPostData) {
-        res.status(404).json({ message: 'No post found with this id' });
-        return;
+    .then((dbPostData) => {
+      if (dbPostData) {
+        const post = dbPostData.get({ plain: true });
+
+        res.render("single-post", {
+           post,
+          loggedIn: req.session.loggedIn
+         });
+      } else {
+        res.status(404).end();
       }
-
-      const post = dbPostData.get({ plain: true });
-
-      res.render('single-post', {
-        post,
-        loggedIn: req.session.loggedIn
-      });
     })
-    .catch(err => {
-      console.log(err);
+    .catch((err) => {
       res.status(500).json(err);
     });
 });
+
 
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
@@ -99,6 +85,13 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get("/signup", (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect("/");
+    return;
+  }
 
+  res.render("signup");
+});
 
- module.exports = router;
+module.exports = router;
