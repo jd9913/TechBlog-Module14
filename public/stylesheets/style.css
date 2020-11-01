@@ -11,6 +11,11 @@
   box-sizing: border-box;
 }
 
+@use "@material/tab-bar/mdc-tab-bar";
+@use "@material/tab-scroller/mdc-tab-scroller";
+@use "@material/tab-indicator/mdc-tab-indicator";
+@use "@material/tab/mdc-tab";
+
 body {
   background-color: var(--primary);
   margin: 0;
