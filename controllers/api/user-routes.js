@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User } = require("../../models");
+const { User, Comment, Post } = require("../../models");
 
 // get all users
 router.get('/', (req, res) => {
@@ -14,6 +14,16 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+ 
+ if(!req.session.views){
+   req.session.views=1;
+   console.log("This is your first visit!");
+
+ }else{
+   req.session.views++
+   console.log(`You have visited ${req.session.views} times`);
+ }
+ 
   User.findOne({
     attributes: { exclude: ['password'] },
     where: {
@@ -32,12 +42,7 @@ router.get('/:id', (req, res) => {
           attributes: ['title']
         }
       },
-      {
-        model: Post,
-        attributes: ['title'],
-        through: Vote,
-        as: 'voted_posts'
-      }
+     
     ]
   })
     .then(dbUserData => {
@@ -55,17 +60,16 @@ router.get('/:id', (req, res) => {
 
 
 
-
-
-router.post("/", (req, res) => {
+router.post("/signup", (req, res) => {
   User.create({
     username: req.body.username,
+    email: req.body.email,
     password: req.body.password
   })
   .then(dbUserData => {
     req.session.save(() => {
-      req.session.userId = dbUserData.id;
-      req.session.username = dbUserData.username;
+      req.session.user_id = dbUserData.id;
+      req.session.email = dbUserData.email;
       req.session.loggedIn = true;
 
       res.json(dbUserData);
@@ -78,26 +82,31 @@ router.post("/", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
+  console.log('this is working!');
+  console.dir(req.body);
+  
   User.findOne({
     where: {
       username: req.body.username
     }
   }).then(dbUserData => {
+    console.log('user data found', dbUserData);
     if (!dbUserData) {
       res.status(400).json({ message: 'No user account found!' });
       return;
     }
 
     const validPassword = dbUserData.checkPassword(req.body.password);
+    console.log(validPassword);
 
     if (!validPassword) {
       res.status(400).json({ message: 'Incorrect password!' });
-      return;
+      return ;
     }
 
     req.session.save(() => {
-      req.session.userId = dbUserData.id;
-      req.session.username = dbUserData.username;
+      req.session.user_id = dbUserData.id;
+      req.session.email = dbUserData.email;
       req.session.loggedIn = true;
   
       res.json({ user: dbUserData, message: 'You are now logged in!' });

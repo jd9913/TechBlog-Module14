@@ -3,15 +3,14 @@ const { response } = require("express");
 async function signupFormHandler(event) {
   event.preventDefault();
 
-  const username = document.querySelector('#username-signup').value.trim();
-  const email = document.querySelector('#email-signup').value.trim();
-  const password = document.querySelector('#password-signup').value.trim();
+  
+  const email = document.querySelector('#email-signup').value;
+  const password = document.querySelector('#password-signup').value;
 
   if (username && email && password) {
     fetch('/api/user', {
       method: 'post',
       body: JSON.stringify({
-        username: username.value,
         email: email.value,
         password: password.value
       }),
