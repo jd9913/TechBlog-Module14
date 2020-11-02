@@ -5,11 +5,8 @@ const sequelize=require('../config/connection');
 
 
 router.get('/', (req, res) => {
-  HTMLFormControlsCollection.log(req.session);
-  console.log('======================');
+ 
   
-
-
   Post.findAll({
     attributes: [
       'id',
