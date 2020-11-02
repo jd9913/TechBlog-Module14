@@ -46,12 +46,15 @@ router.get('/', (req, res) => {
 
 //get single post
 router.get("/post/:id", (req, res) => {
+  
   Post.findByPk(req.params.id, {
     include: [
       User,
       {
         model: Comment,
-        include: [User],
+        include: {model: User,
+          attributes:['username']
+        },
       },
     ],
   })
