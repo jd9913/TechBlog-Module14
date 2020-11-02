@@ -12,7 +12,6 @@ router.get('/', (req, res) => {
     });
 });
 
-
 router.post("/", withAuth, (req, res) => {
   Comment.create({ ...req.body, userId: req.session.userId })
     .then(newComment => {
