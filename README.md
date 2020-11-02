@@ -37,7 +37,7 @@ Description
 >:email:Email: jd9913@gmail.com<br>
 >GitHub Username: jd9913<br>
 >:link: Repository Link: https://github.com/jd9913/TechBlog-Module14/tree/master<br>
->:Link: Live App Deployed: https://radiant-brook-26258.herokuapp.com/<br>
+>:link: Live App Deployed: https://radiant-brook-26258.herokuapp.com/<br>
 
 [Licenses](#license)
 ==
