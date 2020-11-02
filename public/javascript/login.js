@@ -1,4 +1,5 @@
 
+console.log('we are logging in');
 
 async function loginFormHandler(event) {
   event.preventDefault();
@@ -38,7 +39,6 @@ if (email && password) {
   
 }
 };
-
 
 document
   .querySelector("#login-form")
