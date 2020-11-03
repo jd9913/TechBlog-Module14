@@ -20,7 +20,7 @@ let handleError=function(err){
 };
 
 
-if (email && password) {
+if (username && password) {
   const response = await fetch('/api/user/login', {
     method: "post",
     body: JSON.stringify({
