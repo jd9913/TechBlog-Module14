@@ -2,37 +2,37 @@ const router = require("express").Router();
 const { Post, Comment, User } = require("../../models/");
 const withAuth = require("../../utils/auth");
 
-router.get('/', (req, res) => {
-  console.log('======================');
-  Post.findAll({
-    attributes: [
-      'id',
-      'post_url',
-      'title',
-      'created_at',
+// router.get('/', (req, res) => {
+//   console.log('======================');
+//   Post.findAll({
+//     attributes: [
+//       'id',
+//       'post_url',
+//       'title',
+//       'created_at',
      
-    ],
-    include: [
-      {
-        model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-        include: {
-          model: User,
-          attributes: ['username']
-        }
-      },
-      {
-        model: User,
-        attributes: ['username']
-      }
-    ]
-  })
-    .then(dbPostData => res.json(dbPostData))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
+//     ],
+//     include: [
+//       {
+//         model: Comment,
+//         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+//         include: {
+//           model: User,
+//           attributes: ['username']
+//         }
+//       },
+//       {
+//         model: User,
+//         attributes: ['username']
+//       }
+//     ]
+//   })
+//     .then(dbPostData => res.json(dbPostData))
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
 
 router.get('/:id', (req, res) => {
   Post.findOne({

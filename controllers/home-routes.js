@@ -19,10 +19,7 @@ router.get('/', (req, res) => {
       {
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-        include: {
-          model: User,
-          attributes: ['email']
-        }
+        include: [User]
       },
     
     ]
@@ -46,13 +43,15 @@ router.get('/', (req, res) => {
 
 //get single post
 router.get("/post/:id", (req, res) => {
+  
   Post.findByPk(req.params.id, {
     include: [
       User,
       {
         model: Comment,
         include: [User],
-      },
+        },
+      
     ],
   })
     .then((dbPostData) => {

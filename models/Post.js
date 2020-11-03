@@ -21,6 +21,7 @@ Post.init(
       validate: {
         isURL: true
       }
+    
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -28,7 +29,12 @@ Post.init(
         model: 'user',
         key: 'id'
       }
-    }
+    },
+    // body:{
+    //   type: DataTypes.STRING
+
+    // }
+
   },
   {
     sequelize,
