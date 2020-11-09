@@ -7,7 +7,10 @@ console.log('button clicked')
   const comment_text = document.querySelector('textarea[name="comment-body"]').value;
 
   if (comment_text) {
-    await fetch('/api/comment', {
+    console.log('this is working now!!!');
+
+    const commentFetch=await fetch('/api/comment', {
+
       method: 'POST',
       body: JSON.stringify({
         postId,
@@ -17,7 +20,12 @@ console.log('button clicked')
         'Content-Type': 'application/json'
       }
     });
-    
+    // if (commentFetch.ok){
+    // const commentResult=await commentFetch.json()
+
+    // console.log('maybe its working');
+    // console.log({commentResult});
+    // }
     document.location.reload();
   }
 };

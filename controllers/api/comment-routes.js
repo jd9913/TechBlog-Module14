@@ -12,13 +12,25 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post("/", withAuth, (req, res) => {
-  Comment.create({ ...req.body, userId: req.session.userId })
+//router.post("/", withAuth, (req, res) => {
+  router.post('/', (req, res)=>{
+
+    const postId=parseInt(req.body.postId);
+
+    console.log('adding comments: ', req.body);
+    console.log(req.session);
+  Comment.create({
+    post_id: postId,
+    comment_text: req.body.comment_text,
+    user_id: 1}) //req.session.userId })
+  
     .then(newComment => {
+      console.log('trying this too!')
       res.json(newComment);
     })
     .catch(err => {
       res.status(500).json(err);
+      console.log('error is: ', err);
     });
 });
 

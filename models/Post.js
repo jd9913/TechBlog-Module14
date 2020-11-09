@@ -30,10 +30,10 @@ Post.init(
         key: 'id'
       }
     },
-    // body:{
-    //   type: DataTypes.STRING
+     body:{
+     type: DataTypes.STRING
 
-    // }
+    }
 
   },
   {
